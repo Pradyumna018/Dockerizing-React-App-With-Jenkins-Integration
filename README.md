@@ -67,8 +67,25 @@ docker run -d -p 3000:3000 react-app:latest
 # Step-5 : LogIn inito jenkins
 
 You need to configure the webhook on your GitHub repository. Then, on every commit push, Jenkins will be notified.
+
 So, open your repository in the browser, then go to Settings > Webhooks and add a new one.
 Then, enter the URL of your Jenkins instance followed by /github-webhook and select the other options depending on your needs.
+
 `GitHub repo -> Settings -> Webhooks -> push type webhook with URL: http(s)://host:<port>/github-webhook/`
 
-  
+# Step-6 : Build your Pipeline
+
+You will get an error `permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post.`
+
+To avoid this error give permission to that file
+```
+sudo chmod 777 /var/run/docker.sock
+```
+# Step-7 : Final deployment with Jenkins CICD
+Now do some changes in your code and commit it.
+
+It will automatically trigger the pipeleine and your React app will be deployed.
+
+## Thank You❤️
+![Screenshot 2024-07-24 233839](https://github.com/user-attachments/assets/900264f2-e877-4588-a969-a3edc53166ac)
+
