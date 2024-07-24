@@ -42,46 +42,33 @@ sudo systemctl status jenkins
 ```
 git clone https://github.com/Pradyumna018/Dockerizing-React-App-With-Jenkins-Integration.git
 ```
-# Step-2 : Create a Dockerfile**
-
-The next step is to create a Dockerfile for our React application. A Dockerfile is a text file that contains instructions for building a Docker image.
-
-In your terminal, navigate to the root directory of your React application and create a new file named `Dockerfile`.
-
-Open the `Dockerfile` in your code editor and add the following contents:
-
-```bash
-# Use an official Node runtime as a parent image
-FROM node:16
-
-# Set the working directory to /app
-WORKDIR /app
-
-# Copy the package.json and package-lock.json to the working directory
-COPY ./package*.json ./
-
-# Install the dependencies
-RUN npm install
-
-# Copy the remaining application files to the working directory
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# Expose port 3000 for the application
-EXPOSE 3000
-
-# Start the application
-CMD [ "npm", "run", "start" ]
+# Step-3 : Create Public and Private key
 ```
-
-## Building a Docker Image
-
-Now that we have a Dockerfile for our React application, we can build a Docker image.
-
-Create a new file named `.dockerignore` in the root directory of your React application and add the following line:
-
-```bash
-node_modules
+ssh-keygen
 ```
+```
+cd ~/.ssh
+```
+Attach your Public key to Github and Private key to Jenkins.
+
+# Step-4 : LogIn inito jenkins
+* Install one plugin `Github Integration`
+* Create `FreestyleProject`
+* Add github repo address in SCM
+* Select your branch (master or main)
+* Click on Checkbox `GitHub hook trigger for GITScm polling`
+* Build Steps -> Excute shell
+* Paste this to create and run the container
+```
+docker build -t react-app:latest .
+docker run -d -p 3000:3000 react-app:latest
+```
+* Save and Apply
+# Step-5 : LogIn inito jenkins
+
+You need to configure the webhook on your GitHub repository. Then, on every commit push, Jenkins will be notified.
+So, open your repository in the browser, then go to Settings > Webhooks and add a new one.
+Then, enter the URL of your Jenkins instance followed by /github-webhook and select the other options depending on your needs.
+`GitHub repo -> Settings -> Webhooks -> push type webhook with URL: http(s)://host:<port>/github-webhook/`
+
+  
